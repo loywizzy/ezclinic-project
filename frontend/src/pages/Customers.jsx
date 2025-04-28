@@ -108,12 +108,14 @@ export default function Customers() {
             </tr>
           </thead>
           <tbody className="text-gray-600 text-sm font-light">
-            {list.map((item) => (
+          {list.map((item) => {
+            const displayId = String(item.id).padStart(7, '0');
+            return (
               <tr
                 key={item.id}
                 className="border-b border-gray-200 hover:bg-gray-50 transition-colors"
               >
-                <td className="py-3 px-6 text-left">{item.id}</td>
+                <td className="py-3 px-6 text-left">{displayId}</td>
                 <td className="py-3 px-6 text-left">{item.name}</td>
                 <td className="py-3 px-6 text-left">{item.phone}</td>
                 <td className="py-3 px-6 text-left">{item.email}</td>
@@ -134,7 +136,8 @@ export default function Customers() {
                   </div>
                 </td>
               </tr>
-            ))}
+            );
+          })}
           </tbody>
         </table>
       </div>

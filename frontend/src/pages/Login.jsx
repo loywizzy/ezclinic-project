@@ -1,16 +1,30 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios"; // เพิ่ม axios เข้ามา
 
 export default function Login() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // TODO: call API, handle auth...
-    navigate('/dashboard');
+    console.log("login with", email, password);
+    try {
+      const res = await axios.post("http://localhost:8080/login", {
+        email,
+        password,
+      });
+
+      const { token } = res.data;
+      localStorage.setItem("token", token); // เก็บ token
+
+      navigate("/dashboard"); // ไปหน้าหลังบ้าน
+    } catch (err) {
+      console.error(err);
+      alert("เข้าสู่ระบบไม่สำเร็จ: อีเมลหรือรหัสผ่านผิด");
+    }
   };
 
   return (
@@ -39,7 +53,7 @@ export default function Login() {
               required
             />
             <input
-              type={showPassword ? 'text' : 'password'}
+              type={showPassword ? "text" : "password"}
               placeholder="รหัสผ่าน"
               className="w-full p-3 border border-gray-300 rounded-lg shadow-sm focus:ring-2 focus:ring-blue-300 focus:outline-none"
               value={password}
@@ -65,7 +79,9 @@ export default function Login() {
               เข้าสู่ระบบ
             </button>
           </form>
-          <p className="text-xs text-gray-400 mt-6 text-center">version 1.0.0</p>
+          <p className="text-xs text-gray-400 mt-6 text-center">
+            version 1.0.0
+          </p>
           <p className="text-xs text-gray-300 text-center">
             © 2025, Made with SmartCarePro
           </p>

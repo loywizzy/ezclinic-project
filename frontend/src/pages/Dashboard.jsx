@@ -1,8 +1,27 @@
 import { FaBell } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 export default function Dashboard() {
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem('token'); // ลบ token
+    navigate('/'); // เด้งกลับหน้า login
+  };
+
   return (
+    
+    
     <div>
+      <div className="mt-auto pt-6">
+          <button 
+            onClick={handleLogout} 
+            className="w-full py-2 px-4 bg-red-500 hover:bg-red-600 rounded-lg font-semibold"
+          >
+            ออกจากระบบ
+          </button>
+        </div>
       <h2 className="text-2xl font-bold mb-6">แดชบอร์ด</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {["ลูกค้า", "พนักงาน", "ตำแหน่ง"].map((label, i) => (
